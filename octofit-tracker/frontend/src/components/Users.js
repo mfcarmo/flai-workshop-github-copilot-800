@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function Users() {
   const [users, setUsers] = useState([]);
@@ -34,37 +35,64 @@ function Users() {
       });
   }, []);
 
-  if (loading) return <div className="container mt-4"><p>Loading users...</p></div>;
-  if (error) return <div className="container mt-4"><p className="text-danger">Error: {error}</p></div>;
+  if (loading) return (
+    <div className="container mt-4">
+      <div className="loading-spinner">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <p className="mt-3">Loading users...</p>
+      </div>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="container mt-4">
+      <div className="alert alert-danger" role="alert">
+        <strong>Error:</strong> {error}
+      </div>
+    </div>
+  );
 
   return (
-    <div className="container mt-4">
-      <h2>Users</h2>
-      <div className="table-responsive">
-        <table className="table table-striped table-hover">
+    <div className="container mt-4 fade-in">
+      <div className="page-header">
+        <h2>👤 Users</h2>
+      </div>
+      <div className="table-container">
+        <table className="table table-striped table-hover mb-0">
           <thead className="table-dark">
             <tr>
-              <th>Username</th>
+              <th>Name</th>
               <th>Email</th>
               <th>Team</th>
-              <th>Total Points</th>
               <th>Joined Date</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {users.length > 0 ? (
               users.map((user, index) => (
-                <tr key={user.id || index}>
-                  <td>{user.username || 'N/A'}</td>
+                <tr key={user._id || user.id || index}>
+                  <td><strong>{user.name || 'N/A'}</strong></td>
                   <td>{user.email || 'N/A'}</td>
-                  <td>{user.team_name || user.team || 'No Team'}</td>
-                  <td>{user.total_points || 0}</td>
-                  <td>{user.date_joined ? new Date(user.date_joined).toLocaleDateString() : 'N/A'}</td>
+                  <td><span className="badge bg-primary">{user.team || 'No Team'}</span></td>
+                  <td>{user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}</td>
+                  <td>
+                    <Link to={`/users/edit/${user._id}`} className="btn btn-sm btn-outline-primary">
+                      ✏️ Edit
+                    </Link>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="text-center">No users found</td>
+                <td colSpan="5">
+                  <div className="empty-state">
+                    <div className="empty-state-icon">👥</div>
+                    <p className="mb-0">No users found</p>
+                  </div>
+                </td>
               </tr>
             )}
           </tbody>

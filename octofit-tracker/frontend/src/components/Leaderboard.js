@@ -34,19 +34,37 @@ function Leaderboard() {
       });
   }, []);
 
-  if (loading) return <div className="container mt-4"><p>Loading leaderboard...</p></div>;
-  if (error) return <div className="container mt-4"><p className="text-danger">Error: {error}</p></div>;
+  if (loading) return (
+    <div className="container mt-4">
+      <div className="loading-spinner">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <p className="mt-3">Loading leaderboard...</p>
+      </div>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="container mt-4">
+      <div className="alert alert-danger" role="alert">
+        <strong>Error:</strong> {error}
+      </div>
+    </div>
+  );
 
   return (
-    <div className="container mt-4">
-      <h2>Leaderboard</h2>
-      <div className="table-responsive">
-        <table className="table table-striped table-hover">
+    <div className="container mt-4 fade-in">
+      <div className="page-header">
+        <h2>🏆 Leaderboard</h2>
+      </div>
+      <div className="table-container">
+        <table className="table table-striped table-hover mb-0">
           <thead className="table-dark">
             <tr>
               <th>Rank</th>
               <th>User</th>
-              <th>Total Points</th>
+              <th>Total Calories</th>
               <th>Activities</th>
               <th>Team</th>
             </tr>
@@ -54,17 +72,22 @@ function Leaderboard() {
           <tbody>
             {leaderboard.length > 0 ? (
               leaderboard.map((entry, index) => (
-                <tr key={entry.id || index}>
-                  <td>{entry.rank || index + 1}</td>
-                  <td>{entry.user_name || entry.user || 'N/A'}</td>
-                  <td>{entry.total_points || 0}</td>
+                <tr key={entry._id || entry.id || index}>
+                  <td><span className="badge badge-rank">#{entry.rank || index + 1}</span></td>
+                  <td><strong>{entry.user_name || 'N/A'}</strong></td>
+                  <td><span className="badge bg-success">{entry.total_calories || 0}</span></td>
                   <td>{entry.total_activities || 0}</td>
-                  <td>{entry.team_name || entry.team || 'N/A'}</td>
+                  <td><span className="badge bg-primary">{entry.team || 'N/A'}</span></td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="text-center">No leaderboard data found</td>
+                <td colSpan="5">
+                  <div className="empty-state">
+                    <div className="empty-state-icon">🏆</div>
+                    <p className="mb-0">No leaderboard data found</p>
+                  </div>
+                </td>
               </tr>
             )}
           </tbody>

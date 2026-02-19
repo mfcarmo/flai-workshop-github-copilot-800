@@ -34,20 +34,37 @@ function Activities() {
       });
   }, []);
 
-  if (loading) return <div className="container mt-4"><p>Loading activities...</p></div>;
-  if (error) return <div className="container mt-4"><p className="text-danger">Error: {error}</p></div>;
+  if (loading) return (
+    <div className="container mt-4">
+      <div className="loading-spinner">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <p className="mt-3">Loading activities...</p>
+      </div>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="container mt-4">
+      <div className="alert alert-danger" role="alert">
+        <strong>Error:</strong> {error}
+      </div>
+    </div>
+  );
 
   return (
-    <div className="container mt-4">
-      <h2>Activities</h2>
-      <div className="table-responsive">
-        <table className="table table-striped table-hover">
+    <div className="container mt-4 fade-in">
+      <div className="page-header">
+        <h2>🏋️‍♂️ Activities</h2>
+      </div>
+      <div className="table-container">
+        <table className="table table-striped table-hover mb-0">
           <thead className="table-dark">
             <tr>
-              <th>User</th>
+              <th>User Email</th>
               <th>Activity Type</th>
               <th>Duration (min)</th>
-              <th>Distance (km)</th>
               <th>Calories</th>
               <th>Date</th>
             </tr>
@@ -55,18 +72,22 @@ function Activities() {
           <tbody>
             {activities.length > 0 ? (
               activities.map((activity, index) => (
-                <tr key={activity.id || index}>
-                  <td>{activity.user_name || activity.user || 'N/A'}</td>
-                  <td>{activity.activity_type || 'N/A'}</td>
+                <tr key={activity._id || activity.id || index}>
+                  <td>{activity.user_email || 'N/A'}</td>
+                  <td><span className="badge bg-info">{activity.activity_type || 'N/A'}</span></td>
                   <td>{activity.duration || 0}</td>
-                  <td>{activity.distance || 0}</td>
-                  <td>{activity.calories_burned || 0}</td>
-                  <td>{activity.date ? new Date(activity.date).toLocaleDateString() : 'N/A'}</td>
+                  <td><strong>{activity.calories || 0}</strong></td>
+                  <td>{activity.date ? new Date(activity.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Invalid Date'}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="text-center">No activities found</td>
+                <td colSpan="5">
+                  <div className="empty-state">
+                    <div className="empty-state-icon">📊</div>
+                    <p className="mb-0">No activities found</p>
+                  </div>
+                </td>
               </tr>
             )}
           </tbody>
