@@ -161,6 +161,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 # CSRF settings for Codespace
-CSRF_TRUSTED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'http://localhost:8000']
 if CODESPACE_NAME:
     CSRF_TRUSTED_ORIGINS.append(f'https://{CODESPACE_NAME}-8000.app.github.dev')
+    CSRF_TRUSTED_ORIGINS.append(f'https://{CODESPACE_NAME}-3000.app.github.dev')
