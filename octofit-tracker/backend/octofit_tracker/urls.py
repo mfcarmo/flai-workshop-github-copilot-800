@@ -17,6 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from octofit_tracker import views
+import os
+
+# Configure API base URL for Codespace or localhost
+# API endpoint format: https://$CODESPACE_NAME-8000.app.github.dev/api/[component]/
+CODESPACE_NAME = os.getenv('CODESPACE_NAME')
+if CODESPACE_NAME:
+    API_BASE_URL = f'https://{CODESPACE_NAME}-8000.app.github.dev'
+else:
+    API_BASE_URL = 'http://localhost:8000'
 
 # Create a router and register our viewsets
 router = routers.DefaultRouter()
