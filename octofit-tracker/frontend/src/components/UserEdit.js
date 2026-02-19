@@ -21,7 +21,8 @@ function UserEdit() {
 
   useEffect(() => {
     // Fetch user data
-    fetch(`${baseUrl}/api/users/${id}/`)
+    const userApiUrl = `${baseUrl}/api/users/${id}/`;
+    fetch(userApiUrl)
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -44,7 +45,8 @@ function UserEdit() {
       });
 
     // Fetch teams for dropdown
-    fetch(`${baseUrl}/api/teams/`)
+    const teamsApiUrl = `${baseUrl}/api/teams/`;
+    fetch(teamsApiUrl)
       .then(response => response.json())
       .then(data => {
         const teamsData = data.results || data;
@@ -69,7 +71,8 @@ function UserEdit() {
     setError(null);
 
     try {
-      const response = await fetch(`${baseUrl}/api/users/${id}/`, {
+      const updateApiUrl = `${baseUrl}/api/users/${id}/`;
+      const response = await fetch(updateApiUrl, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

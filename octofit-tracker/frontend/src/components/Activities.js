@@ -6,10 +6,9 @@ function Activities() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const baseUrl = process.env.REACT_APP_CODESPACE_NAME 
-      ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev`
-      : 'http://localhost:8000';
-    const apiUrl = `${baseUrl}/api/activities/`;
+    const apiUrl = process.env.REACT_APP_CODESPACE_NAME 
+      ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/activities/`
+      : 'http://localhost:8000/api/activities/';
     console.log('Activities - Fetching from:', apiUrl);
 
     fetch(apiUrl)

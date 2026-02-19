@@ -7,10 +7,9 @@ function Users() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const baseUrl = process.env.REACT_APP_CODESPACE_NAME 
-      ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev`
-      : 'http://localhost:8000';
-    const apiUrl = `${baseUrl}/api/users/`;
+    const apiUrl = process.env.REACT_APP_CODESPACE_NAME 
+      ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/users/`
+      : 'http://localhost:8000/api/users/';
     console.log('Users - Fetching from:', apiUrl);
 
     fetch(apiUrl)

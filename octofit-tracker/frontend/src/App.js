@@ -7,7 +7,6 @@ import Teams from './components/Teams';
 import Users from './components/Users';
 import Workouts from './components/Workouts';
 import UserEdit from './components/UserEdit';
-import UserEdit from './components/UserEdit';
 
 function Home() {
   return (
